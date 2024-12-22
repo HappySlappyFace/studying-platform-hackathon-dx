@@ -1,5 +1,9 @@
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
   application:
     name: studyingplatform
   jpa:
@@ -15,6 +19,7 @@ spring:
     username: amigoscode
     password: password
     driverClassName: org.postgresql.Driver
-
+file:
+  upload-dir: videos
 server:
   port: 8081
