@@ -28,7 +28,7 @@ public class Course {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<Resource> resources = new ArrayList<>(); // Resources in the course
+    private List<Resource> resourceEntities = new ArrayList<>(); // Resources in the course
 
     // Getters and setters
 }

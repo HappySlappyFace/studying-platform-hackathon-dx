@@ -7,12 +7,10 @@ import com.main.studyingplatform.Repository.CourseRepository;
 import com.main.studyingplatform.Repository.ResourceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/teacher")
@@ -26,8 +24,8 @@ public class TeacherController {
 
     @GetMapping("/my-resources")
     public ResponseEntity<List<Resource>> getResources(@AuthenticationPrincipal User teacher) {
-        List<Resource> resources = resourceRepository.findByUploadedBy(teacher);
-        return ResponseEntity.ok(resources);
+        List<Resource> resourceEntities = resourceRepository.findByUploadedBy(teacher);
+        return ResponseEntity.ok(resourceEntities);
     }
 
     @GetMapping("/my-courses")

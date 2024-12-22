@@ -42,7 +42,7 @@ public class StudentProgressController {
         Resource resource = resourceRepository.findById(resourceId)
                 .orElseThrow(() -> new RuntimeException("Resource not found"));
 
-        if (!course.getResources().contains(resource)) {
+        if (!course.getResourceEntities().contains(resource)) {
             return ResponseEntity.badRequest().body("Resource does not belong to the specified course");
         }
 
@@ -65,13 +65,13 @@ public class StudentProgressController {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course not found"));
 
-        List<Resource> resources = course.getResources();
+        List<Resource> resourceEntities = course.getResourceEntities();
         List<StudentProgress> progressList = progressRepository.findByStudentAndCourse(student, course);
 
         Map<Long, Boolean> progressMap = progressList.stream()
                 .collect(Collectors.toMap(progress -> progress.getResource().getId(), StudentProgress::isCompleted));
 
-        List<ProgressDTO> progressDTOList = resources.stream().map(resource -> {
+        List<ProgressDTO> progressDTOList = resourceEntities.stream().map(resource -> {
             boolean completed = progressMap.getOrDefault(resource.getId(), false);
             ProgressDTO.ResourceDTO resourceDTO = new ProgressDTO.ResourceDTO(
                     resource.getId(),
