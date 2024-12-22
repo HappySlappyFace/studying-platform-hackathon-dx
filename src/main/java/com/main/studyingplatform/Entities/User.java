@@ -1,5 +1,6 @@
 package com.main.studyingplatform.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,6 +26,7 @@ public class User implements UserDetails {
     @Column(unique = true, nullable = false, length = 100)
     private String username;
 
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
@@ -36,11 +38,13 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Role role; // TECHNICIAN, REPRESENTATIVE, ADMIN
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
+    @JsonIgnore
     @Override
     public String getUsername(){
         return username;
@@ -50,21 +54,25 @@ public class User implements UserDetails {
         return UserDetails.super.isAccountNonExpired();
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return UserDetails.super.isAccountNonLocked();
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return UserDetails.super.isCredentialsNonExpired();
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
     }
 
+    @JsonIgnore
     @Override
     public String getPassword() {
         return password;

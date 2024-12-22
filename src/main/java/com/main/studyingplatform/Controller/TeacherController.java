@@ -5,6 +5,7 @@ import com.main.studyingplatform.Entities.Resource;
 import com.main.studyingplatform.Entities.User;
 import com.main.studyingplatform.Repository.CourseRepository;
 import com.main.studyingplatform.Repository.ResourceRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,30 +18,21 @@ import java.util.Map;
 @RequestMapping("/api/teacher")
 public class TeacherController {
 
+    @Autowired
     private ResourceRepository resourceRepository;
+
+    @Autowired
     private CourseRepository courseRepository;
 
-    @PostMapping("/upload-resource")
-    @PreAuthorize("hasRole('TEACHER')")
-    public ResponseEntity<String> uploadResource(@RequestBody Map<String, String> resource) {
-        // Simulate resource upload
-        return ResponseEntity.ok("Resource uploaded successfully");
-    }
-
     @GetMapping("/my-resources")
-    @PreAuthorize("hasRole('TEACHER')")
-    public ResponseEntity<List<String>> getResources() {
-        // Simulate fetching teacher resources
-        List<String> resources = List.of("Resource 1", "Resource 2");
+    public ResponseEntity<List<Resource>> getResources(@AuthenticationPrincipal User teacher) {
+        List<Resource> resources = resourceRepository.findByUploadedBy(teacher);
         return ResponseEntity.ok(resources);
     }
-
 
     @GetMapping("/my-courses")
     public ResponseEntity<List<Course>> getMyCourses(@AuthenticationPrincipal User teacher) {
         List<Course> courses = courseRepository.findByCreatedBy(teacher);
         return ResponseEntity.ok(courses);
     }
-
-
 }

@@ -1,5 +1,6 @@
 package com.main.studyingplatform.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -36,6 +37,7 @@ public class Resource {
 
     @ManyToOne
     @JoinColumn(name = "course_id", nullable = false)
+    @JsonBackReference
     private Course course;
 
     // Getters and setters

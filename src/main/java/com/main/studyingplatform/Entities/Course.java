@@ -1,5 +1,6 @@
 package com.main.studyingplatform.Entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,6 +27,7 @@ public class Course {
     private User createdBy; // Teacher who created the course
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Resource> resources = new ArrayList<>(); // Resources in the course
 
     // Getters and setters
