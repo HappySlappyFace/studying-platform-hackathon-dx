@@ -3,6 +3,10 @@ package com.main.studyingplatform.Entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -18,12 +22,21 @@ public class Resource {
 
     private String description;
 
+    @CreatedDate
+    private LocalDateTime createdAt;
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
     @Column(nullable = false)
     private String filePath; // Path to the video file
 
     @ManyToOne
     @JoinColumn(name = "uploaded_by_id", nullable = false)
     private User uploadedBy; // Reference to the teacher who uploaded this video
+
+    @ManyToOne
+    @JoinColumn(name = "course_id", nullable = false)
+    private Course course;
 
     // Getters and setters
 }

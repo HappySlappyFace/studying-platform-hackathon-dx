@@ -1,7 +1,9 @@
 package com.main.studyingplatform.Controller;
 
+import com.main.studyingplatform.Entities.Course;
 import com.main.studyingplatform.Entities.Resource;
 import com.main.studyingplatform.Entities.User;
+import com.main.studyingplatform.Repository.CourseRepository;
 import com.main.studyingplatform.Repository.ResourceRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,6 +18,7 @@ import java.util.Map;
 public class TeacherController {
 
     private ResourceRepository resourceRepository;
+    private CourseRepository courseRepository;
 
     @PostMapping("/upload-resource")
     @PreAuthorize("hasRole('TEACHER')")
@@ -31,10 +34,13 @@ public class TeacherController {
         List<String> resources = List.of("Resource 1", "Resource 2");
         return ResponseEntity.ok(resources);
     }
-    @GetMapping("/my-videos")
-    public ResponseEntity<List<Resource>> getMyVideos(@AuthenticationPrincipal User user) {
-        List<com.main.studyingplatform.Entities.Resource> videos = resourceRepository.findByUploadedBy(user);
-        return ResponseEntity.ok(videos);
+
+
+    @GetMapping("/my-courses")
+    public ResponseEntity<List<Course>> getMyCourses(@AuthenticationPrincipal User teacher) {
+        List<Course> courses = courseRepository.findByCreatedBy(teacher);
+        return ResponseEntity.ok(courses);
     }
+
 
 }
